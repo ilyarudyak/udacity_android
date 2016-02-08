@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ilyarudyak.android.simplemaps">
-
-    // users permissions
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    // (1) meta for open GL
+    // (1) users permissions
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    // (2) meta for open GL
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -18,19 +16,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        // (2) meta for google play services
+        // (3) meta for google play services
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-        // (3) meta for API key
+        // (4) meta for API key
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBrnnexX3m_KrgqdCN2ONPdF23z4Bjpkng">
-        </meta-data>
+            android:value="AIzaSyBrnnexX3m_KrgqdCN2ONPdF23z4Bjpkng" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MapsActivity1">
+
+        </activity>
+        <activity android:name=".MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
