@@ -25,10 +25,9 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBrnnexX3m_KrgqdCN2ONPdF23z4Bjpkng" />
 
-        <activity android:name=".MapsActivity1">
-
-        </activity>
-        <activity android:name=".MainActivity2">
+        <activity android:name=".MapsActivity1"/>
+        <activity android:name=".MainActivity2"/>
+        <activity android:name=".MainActivity3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
