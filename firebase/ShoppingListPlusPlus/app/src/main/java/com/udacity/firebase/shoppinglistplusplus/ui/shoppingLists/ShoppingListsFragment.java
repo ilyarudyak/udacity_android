@@ -1,4 +1,4 @@
-package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
+package com.udacity.firebase.shoppinglistplusplus.ui.shoppingLists;
 
 
 import android.os.Bundle;

@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.udacity.firebase.shoppinglistplusplus.R;
-import com.udacity.firebase.shoppinglistplusplus.ui.activeLists.AddListDialogFragment;
-import com.udacity.firebase.shoppinglistplusplus.ui.activeLists.ShoppingListsFragment;
+import com.udacity.firebase.shoppinglistplusplus.ui.shoppingLists.AddListDialogFragment;
+import com.udacity.firebase.shoppinglistplusplus.ui.shoppingLists.ShoppingListsFragment;
 import com.udacity.firebase.shoppinglistplusplus.ui.meals.AddMealDialogFragment;
 import com.udacity.firebase.shoppinglistplusplus.ui.meals.MealsFragment;
 
@@ -39,15 +39,9 @@ public class MainActivity extends BaseActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        /**
-         * Create SectionPagerAdapter, set it as adapter to viewPager with setOffscreenPageLimit(2)
-         **/
-        SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
-        viewPager.setOffscreenPageLimit(2);
-        viewPager.setAdapter(adapter);
-        /**
-         * Setup the mTabLayout with view pager
-         */
+
+        // setup view pager adapter and tab layout
+        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -73,62 +67,33 @@ public class MainActivity extends BaseActivity {
 
     // -------------- pager adapter ----------------
 
-    /**
-     * SectionPagerAdapter class that extends FragmentStatePagerAdapter to save fragments state
-     */
     public class SectionPagerAdapter extends FragmentPagerAdapter {
 
         public SectionPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        /**
-         * Use positions (0 and 1) to find and instantiate fragments with newInstance()
-         *
-         * @param position
-         */
         @Override
         public Fragment getItem(int position) {
 
-            Fragment fragment = null;
-
-            /**
-             * Set fragment to different fragments depending on position in ViewPager
-             */
             switch (position) {
-                case 0:
-                    fragment = ShoppingListsFragment.newInstance();
-                    break;
-                case 1:
-                    fragment = MealsFragment.newInstance();
-                    break;
-                default:
-                    fragment = ShoppingListsFragment.newInstance();
-                    break;
+                case 0:  return ShoppingListsFragment.newInstance();
+                case 1:  return MealsFragment.newInstance();
+                default: return ShoppingListsFragment.newInstance();
             }
-
-            return fragment;
         }
-
 
         @Override
         public int getCount() {
             return 2;
         }
 
-        /**
-         * Set string resources as titles for each fragment by it's position
-         *
-         * @param position
-         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
-                    return getString(R.string.pager_title_shopping_lists);
-                case 1:
-                default:
-                    return getString(R.string.pager_title_meals);
+                case 0:  return getString(R.string.pager_title_shopping_lists);
+                case 1:  return getString(R.string.pager_title_meals);
+                default: return getString(R.string.pager_title_shopping_lists);
             }
         }
     }
