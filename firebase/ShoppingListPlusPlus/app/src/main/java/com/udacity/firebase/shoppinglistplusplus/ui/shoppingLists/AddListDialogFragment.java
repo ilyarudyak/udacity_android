@@ -22,8 +22,6 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
  */
 public class AddListDialogFragment extends DialogFragment {
 
-    public static final String LIST_NAME = "listName";
-
     EditText mEditTextListName;
 
     /**
@@ -95,9 +93,9 @@ public class AddListDialogFragment extends DialogFragment {
      */
     public void addShoppingList() {
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+        Firebase ref = new Firebase(Constants.FIREBASE_URL);
         String userEnteredName = mEditTextListName.getText().toString();
-        firebase.child(LIST_NAME).setValue(userEnteredName);
+        ref.child(Constants.FIREBASE_PROPERTY_LIST_NAME).setValue(userEnteredName);
     }
 
 }

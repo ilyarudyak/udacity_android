@@ -8,8 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
+import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 
 /**
@@ -19,6 +25,7 @@ import com.udacity.firebase.shoppinglistplusplus.R;
  */
 public class ShoppingListsFragment extends Fragment {
     private ListView mListView;
+    private TextView mTextViewListName;
 
     public ShoppingListsFragment() {
         /* Required empty public constructor */
@@ -60,6 +67,21 @@ public class ShoppingListsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_shopping_lists, container, false);
         initializeScreen(rootView);
 
+        // setup firebase listener
+        Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_PROPERTY_LIST_NAME);
+        refListName.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String listName = (String) dataSnapshot.getValue();
+                mTextViewListName.setText(listName);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
         /**
          * Set interactive bits, such as click events and adapters
          */
@@ -84,5 +106,19 @@ public class ShoppingListsFragment extends Fragment {
      */
     private void initializeScreen(View rootView) {
         mListView = (ListView) rootView.findViewById(R.id.list_view_active_lists);
+        mTextViewListName = (TextView) rootView.findViewById(R.id.text_view_list_name);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
