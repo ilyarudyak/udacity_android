@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,45 +30,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
-         * Link layout elements from XML and setup the toolbar
-         */
         initializeScreen();
     }
 
-
-    /**
-     * Override onOptionsItemSelected to use main_menu instead of BaseActivity menu
-     *
-     * @param menu
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /* Inflate the menu; this adds items to the action bar if it is present. */
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    /**
-     * Override onOptionsItemSelected to add action_settings only to the MainActivity
-     *
-     * @param item
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    /**
-     * Link layout elements from XML and setup the toolbar
-     */
+    // helper methods
     public void initializeScreen() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -85,6 +50,8 @@ public class MainActivity extends BaseActivity {
          */
         tabLayout.setupWithViewPager(viewPager);
     }
+
+    // -------------- dialogs ----------------
 
     /**
      * Create an instance of the AddList dialog fragment and show it
@@ -104,10 +71,12 @@ public class MainActivity extends BaseActivity {
         dialog.show(MainActivity.this.getFragmentManager(), "AddMealDialogFragment");
     }
 
+    // -------------- pager adapter ----------------
+
     /**
      * SectionPagerAdapter class that extends FragmentStatePagerAdapter to save fragments state
      */
-    public class SectionPagerAdapter extends FragmentStatePagerAdapter {
+    public class SectionPagerAdapter extends FragmentPagerAdapter {
 
         public SectionPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -162,5 +131,30 @@ public class MainActivity extends BaseActivity {
                     return getString(R.string.pager_title_meals);
             }
         }
+    }
+
+    // -------------- options menu ----------------
+
+    /**
+     * Override onOptionsItemSelected to use main_menu instead of BaseActivity menu
+     *
+     * @param menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Inflate the menu; this adds items to the action bar if it is present. */
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    /**
+     * Override onOptionsItemSelected to add action_settings only to the MainActivity
+     *
+     * @param item
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
     }
 }
