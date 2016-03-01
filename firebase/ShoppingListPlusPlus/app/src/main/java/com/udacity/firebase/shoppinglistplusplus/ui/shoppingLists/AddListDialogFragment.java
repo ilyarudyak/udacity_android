@@ -13,12 +13,17 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.udacity.firebase.shoppinglistplusplus.R;
+import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 /**
  * Adds a new shopping list
  */
 public class AddListDialogFragment extends DialogFragment {
+
+    public static final String LIST_NAME = "listName";
+
     EditText mEditTextListName;
 
     /**
@@ -90,6 +95,9 @@ public class AddListDialogFragment extends DialogFragment {
      */
     public void addShoppingList() {
 
+        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+        String userEnteredName = mEditTextListName.getText().toString();
+        firebase.child(LIST_NAME).setValue(userEnteredName);
     }
 
 }
