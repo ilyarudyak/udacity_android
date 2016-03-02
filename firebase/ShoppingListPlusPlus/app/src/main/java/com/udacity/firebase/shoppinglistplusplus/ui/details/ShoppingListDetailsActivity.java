@@ -23,6 +23,8 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = ShoppingListDetailsActivity.class.getSimpleName();
 
+    private ShoppingList mShoppingList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +59,11 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
             refListName.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
-                    if (shoppingList != null) {
+                    mShoppingList = dataSnapshot.getValue(ShoppingList.class);
+                    if (mShoppingList != null) {
                         if (getSupportActionBar() != null) {
-                            getSupportActionBar().setTitle(shoppingList.getListName());
-                            Log.d(LOG_TAG, shoppingList.getListName());
+                            getSupportActionBar().setTitle(mShoppingList.getListName());
+                            Log.d(LOG_TAG, mShoppingList.getListName());
                         }
                     }
                 }
@@ -96,8 +98,10 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
 
     // helper methods
     public void showEditListNameDialog() {
-        DialogFragment dialog = new EditListNameDialogFragment();
-        dialog.show(this.getFragmentManager(), "EditListNameDialogFragment");
+        if (mShoppingList != null) {
+            DialogFragment dialog = EditListNameDialogFragment.newInstance(mShoppingList);
+            dialog.show(this.getFragmentManager(), "EditListNameDialogFragment");
+        }
     }
 }
 
