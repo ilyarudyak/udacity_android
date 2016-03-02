@@ -206,6 +206,7 @@
     <string name="created_by_user">Anonymous</string>
     <string name="shopping_list_name">Shopping list</string>
     <string name="shopping_list_timestamp">2016-03-03 Wed 5:18 PM</string>
+    <string name="title_activity_shopping_list_details">ShoppingListDetailsActivity</string>
 
 
     <!-- Values -->

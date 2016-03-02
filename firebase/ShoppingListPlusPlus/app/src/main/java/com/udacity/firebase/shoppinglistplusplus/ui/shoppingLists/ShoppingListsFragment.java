@@ -1,6 +1,7 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.shoppingLists;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -16,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.ui.details.ShoppingListDetailsActivity;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 import com.udacity.firebase.shoppinglistplusplus.utils.Utils;
 
@@ -27,6 +30,7 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Utils;
  */
 public class ShoppingListsFragment extends Fragment {
     private ListView mListView;
+    private RelativeLayout mSingleShoppingList;
     private TextView mTextViewListName, mTextViewListOwner, mTextViewEditTime;
 
     public ShoppingListsFragment() {
@@ -115,6 +119,14 @@ public class ShoppingListsFragment extends Fragment {
         mTextViewListName = (TextView) rootView.findViewById(R.id.text_view_list_name);
         mTextViewListOwner = (TextView) rootView.findViewById(R.id.text_view_created_by_user);
         mTextViewEditTime = (TextView) rootView.findViewById(R.id.text_view_edit_time);
+
+        mSingleShoppingList = (RelativeLayout) rootView.findViewById(R.id.single_active_list);
+        mSingleShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ShoppingListDetailsActivity.class));
+            }
+        });
     }
 }
 
