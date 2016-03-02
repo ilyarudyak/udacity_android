@@ -1,11 +1,14 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.details;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.DataSnapshot;
@@ -43,6 +46,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         setupFirebaseListener();
     }
 
+    // helper methods
     private void setupFirebaseListener() {
 
         if (getIntent() != null) {
@@ -70,6 +74,31 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         }
     }
 
+    // --------------- options menu --------------
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_details, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit_list_name:
+                showEditListNameDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // helper methods
+    public void showEditListNameDialog() {
+        DialogFragment dialog = new EditListNameDialogFragment();
+        dialog.show(this.getFragmentManager(), "EditListNameDialogFragment");
+    }
 }
 
 
