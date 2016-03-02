@@ -13,7 +13,7 @@ public class ShoppingList {
 
     private String listName;
     private String owner;
-    private Map<String, Object> dateCreated;
+    private Map<String, Object> timestampLastChanged;
 
     public ShoppingList() {
     }
@@ -21,8 +21,8 @@ public class ShoppingList {
     public ShoppingList(String listName, String owner) {
         this.listName = listName;
         this.owner = owner;
-        this.dateCreated = new HashMap<>();
-        this.dateCreated.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+        this.timestampLastChanged = new HashMap<>();
+        this.timestampLastChanged.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
     }
 
     public String getListName() {
@@ -31,8 +31,8 @@ public class ShoppingList {
     public String getOwner() {
         return owner;
     }
-    public Map<String, Object> getDateCreated() {
-        return dateCreated;
+    public Map<String, Object> getTimestampLastChanged() {
+        return timestampLastChanged;
     }
 
 }

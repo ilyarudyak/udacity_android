@@ -74,7 +74,7 @@ public class ShoppingListsFragment extends Fragment {
         initializeScreen(rootView);
 
         // setup firebase listener
-        Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_PROPERTY_LIST_NAME);
+        Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_ACTIVE_LIST);
         refListName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,7 +125,7 @@ public class ShoppingListsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShoppingListDetailsActivity.class);
-                intent.putExtra("child", Constants.FIREBASE_PROPERTY_LIST_NAME);
+                intent.putExtra("child", Constants.FIREBASE_LOCATION_ACTIVE_LIST);
                 startActivity(intent);
             }
         });

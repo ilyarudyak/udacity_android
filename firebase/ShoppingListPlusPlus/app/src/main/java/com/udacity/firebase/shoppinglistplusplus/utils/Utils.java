@@ -19,7 +19,7 @@ public class Utils {
 
     public static String formatShoppingListDate(ShoppingList shoppingList) {
         return SIMPLE_DATE_FORMAT.format(new Date((long)shoppingList
-                .getDateCreated().get(Constants.FIREBASE_PROPERTY_TIMESTAMP)));
+                .getTimestampLastChanged().get(Constants.FIREBASE_PROPERTY_TIMESTAMP)));
     }
 
     /**

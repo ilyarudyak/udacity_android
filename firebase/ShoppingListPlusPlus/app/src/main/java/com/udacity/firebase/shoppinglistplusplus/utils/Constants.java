@@ -25,6 +25,7 @@ public final class Constants {
      * Constants for Firebase URL
      */
     public static final String FIREBASE_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
+    public static final String FIREBASE_URL_ACTIVE_LIST = FIREBASE_URL + "/" + FIREBASE_LOCATION_ACTIVE_LIST;
 
 
     /**

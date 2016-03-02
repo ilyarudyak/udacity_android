@@ -7,11 +7,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.ServerValue;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
+
+import java.util.HashMap;
 
 /**
  * Created by ilyarudyak on 3/2/16.
@@ -28,12 +31,18 @@ implements DialogInterface.OnClickListener {
         return fragment;
     }
 
+    private EditText mListNameEditText;
+    private String mListName;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         View form = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_list, null);
-        EditText editText = (EditText) form.findViewById(R.id.edit_text_list_name_dialog);
-        editText.setHint(getArguments().getString(Constants.KEY_LIST_NAME));
+
+        // set hint for edit text field
+        mListNameEditText = (EditText) form.findViewById(R.id.edit_text_list_name_dialog);
+        mListName = getArguments().getString(Constants.KEY_LIST_NAME);
+        mListNameEditText.setHint(mListName);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -46,6 +55,36 @@ implements DialogInterface.OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(getActivity(), "i'm gonna change dialogue name", Toast.LENGTH_LONG).show();
+        final String inputListName = mListNameEditText.getText().toString();
+        if (!inputListName.equals("") && mListName != null && !inputListName.equals(mListName)) {
+            Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LIST);
+
+            HashMap<String, Object> updatedProperties = new HashMap<>();
+            updatedProperties.put(Constants.FIREBASE_PROPERTY_LIST_NAME, inputListName);
+
+            HashMap<String, Object> changedTimestampMap = new HashMap<>();
+            changedTimestampMap.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+
+            updatedProperties.put(Constants.FIREBASE_PROPERTY_TIMESTAMP_LAST_CHANGED, changedTimestampMap);
+
+            shoppingListRef.updateChildren(updatedProperties);
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

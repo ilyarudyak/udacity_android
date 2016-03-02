@@ -78,7 +78,6 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
 
     // --------------- options menu --------------
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list_details, menu);
