@@ -17,6 +17,7 @@ import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
+import com.udacity.firebase.shoppinglistplusplus.utils.Utils;
 
 
 /**
@@ -26,7 +27,7 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
  */
 public class ShoppingListsFragment extends Fragment {
     private ListView mListView;
-    private TextView mTextViewListName, mTextViewListOwner;
+    private TextView mTextViewListName, mTextViewListOwner, mTextViewEditTime;
 
     public ShoppingListsFragment() {
         /* Required empty public constructor */
@@ -77,6 +78,7 @@ public class ShoppingListsFragment extends Fragment {
                 if (shoppingList != null) {
                     mTextViewListName.setText(shoppingList.getListName());
                     mTextViewListOwner.setText(shoppingList.getOwner());
+                    mTextViewEditTime.setText(Utils.formatShoppingListDate(shoppingList));
                 }
             }
 
@@ -112,6 +114,7 @@ public class ShoppingListsFragment extends Fragment {
         mListView = (ListView) rootView.findViewById(R.id.list_view_active_lists);
         mTextViewListName = (TextView) rootView.findViewById(R.id.text_view_list_name);
         mTextViewListOwner = (TextView) rootView.findViewById(R.id.text_view_created_by_user);
+        mTextViewEditTime = (TextView) rootView.findViewById(R.id.text_view_edit_time);
     }
 }
 
