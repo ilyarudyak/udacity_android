@@ -124,7 +124,9 @@ public class ShoppingListsFragment extends Fragment {
         mSingleShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ShoppingListDetailsActivity.class));
+                Intent intent = new Intent(getActivity(), ShoppingListDetailsActivity.class);
+                intent.putExtra("child", Constants.FIREBASE_PROPERTY_LIST_NAME);
+                startActivity(intent);
             }
         });
     }
