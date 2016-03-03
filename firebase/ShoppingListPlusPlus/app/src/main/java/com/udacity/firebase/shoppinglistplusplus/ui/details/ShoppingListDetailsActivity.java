@@ -1,6 +1,7 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.details;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.ui.MainActivity;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 public class ShoppingListDetailsActivity extends AppCompatActivity {
@@ -66,6 +68,8 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
                             getSupportActionBar().setTitle(mShoppingList.getListName());
                             Log.d(LOG_TAG, mShoppingList.getListName());
                         }
+                    } else {
+                        finish();
                     }
                 }
 
@@ -91,19 +95,43 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
             case R.id.action_edit_list_name:
                 showEditListNameDialog();
                 return true;
+            case R.id.action_remove_list:
+                removeList();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     // helper methods
-    public void showEditListNameDialog() {
-        if (mShoppingList != null) {
+    private void showEditListNameDialog() {
+        if (mShoppingList != null && mPushId != null) {
             DialogFragment dialog = EditListNameDialogFragment.newInstance(mShoppingList, mPushId);
             dialog.show(this.getFragmentManager(), "EditListNameDialogFragment");
         }
     }
+    private void removeList() {
+        if (mShoppingList != null && mPushId != null) {
+            new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId).removeValue();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
