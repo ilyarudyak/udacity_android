@@ -12,15 +12,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
-import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.ui.details.ShoppingListDetailsActivity;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
-import com.udacity.firebase.shoppinglistplusplus.utils.Utils;
 
 
 /**
@@ -74,23 +68,23 @@ public class ShoppingListsFragment extends Fragment {
         initializeScreen(rootView);
 
         // setup firebase listener
-        Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_ACTIVE_LIST);
-        refListName.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
-                if (shoppingList != null) {
-                    mTextViewListName.setText(shoppingList.getListName());
-                    mTextViewListOwner.setText(shoppingList.getOwner());
-                    mTextViewEditTime.setText(Utils.formatShoppingListDate(shoppingList));
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+//        Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_ACTIVE_LIST);
+//        refListName.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
+//                if (shoppingList != null) {
+//                    mTextViewListName.setText(shoppingList.getListName());
+//                    mTextViewListOwner.setText(shoppingList.getOwner());
+//                    mTextViewEditTime.setText(Utils.formatShoppingListDate(shoppingList));
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(FirebaseError firebaseError) {
+//
+//            }
+//        });
 
         /**
          * Set interactive bits, such as click events and adapters
