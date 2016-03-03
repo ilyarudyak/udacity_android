@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.firebase.client.Firebase;
 import com.udacity.firebase.shoppinglistplusplus.R;
-import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.model.ShoppingListItem;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 /**
@@ -19,7 +19,7 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
  */
 public class AddListItemDialogFragment extends DialogFragment {
 
-    private EditText mEditTextListName;
+    private EditText mEditTextListItemName;
     private String mPushId;
 
     public static AddListItemDialogFragment newInstance(String pushId) {
@@ -39,7 +39,7 @@ public class AddListItemDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomTheme_Dialog);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View rootView = inflater.inflate(R.layout.dialog_add_item, null);
-        mEditTextListName = (EditText) rootView.findViewById(R.id.edit_text_add_list_item_dialog);
+        mEditTextListItemName = (EditText) rootView.findViewById(R.id.edit_text_add_list_item_dialog);
 
         builder.setView(rootView)
                 .setPositiveButton(R.string.positive_button_add_list_item, new DialogInterface.OnClickListener() {
@@ -55,8 +55,8 @@ public class AddListItemDialogFragment extends DialogFragment {
     private void addShoppingListItem() {
 
         Firebase shoppingListItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS);
-        shoppingListItemsRef.child(mPushId).push().setValue(new ShoppingList(
-                mEditTextListName.getText().toString(), "Anonymous Owner"));
+        shoppingListItemsRef.child(mPushId).push().setValue(new ShoppingListItem(
+                mEditTextListItemName.getText().toString(), "Anonymous Owner"));
     }
 }
 

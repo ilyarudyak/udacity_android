@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -17,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.model.ShoppingListItem;
 import com.udacity.firebase.shoppinglistplusplus.ui.MainActivity;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
@@ -24,15 +26,27 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = ShoppingListDetailsActivity.class.getSimpleName();
 
+    private ActiveListItemAdapter mActiveListItemAdapter;
+    private ListView mListView;
     private ShoppingList mShoppingList;
     private String mPushId;
+    private Firebase mActiveListRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeScreen();
+        setupFirebaseListener();
+        setupAdapter();
+
+    }
+
+    // helper methods
+    private void initializeScreen() {
         setContentView(R.layout.activity_shopping_list_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mListView = (ListView) findViewById(R.id.list_view_shopping_list_items);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,19 +60,21 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        setupFirebaseListener();
     }
-
-    // helper methods
+    private void setupAdapter() {
+        Firebase listItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS).child(mPushId);
+        mActiveListItemAdapter = new ActiveListItemAdapter(this, ShoppingListItem.class,
+                R.layout.single_active_list_item, listItemsRef);
+        mListView.setAdapter(mActiveListItemAdapter);
+    }
     private void setupFirebaseListener() {
 
         if (getIntent() != null) {
             mPushId = getIntent().getStringExtra(Constants.KEY_LIST_PUSH_ID);
             Log.d(LOG_TAG, mPushId);
 
-            Firebase refListName = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId);
-            refListName.addValueEventListener(new ValueEventListener() {
+            mActiveListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId);
+            mActiveListRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mShoppingList = dataSnapshot.getValue(ShoppingList.class);
