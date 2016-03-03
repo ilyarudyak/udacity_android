@@ -1,4 +1,4 @@
-package com.udacity.firebase.shoppinglistplusplus.ui.shoppingLists;
+package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -94,22 +94,10 @@ public class AddListDialogFragment extends DialogFragment {
      */
     public void addShoppingList() {
 
-        Firebase activeListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LIST);
+        Firebase activeListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
         Firebase pushActiveListRef = activeListRef.push();
         pushActiveListRef.setValue(new ShoppingList(
                 mEditTextListName.getText().toString(), "Anonymous Owner"));
-
-        // ref definition without push()
-//        Firebase ref = new Firebase(Constants.FIREBASE_URL);
-//        ref.child(Constants.FIREBASE_LOCATION_ACTIVE_LIST).setValue(new ShoppingList(
-//                mEditTextListName.getText().toString(), "Anonymous Owner"));
-
-        // alternative ref definitions
-//        Firebase ref = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_LOCATION_ACTIVE_LIST);
-//        ref.setValue(new ShoppingList(mEditTextListName.getText().toString(), "Anonymous Owner"));
-
-//        Firebase ref = new Firebase(Constants.FIREBASE_URL_ACTIVE_LIST);
-//        ref.setValue(new ShoppingList(mEditTextListName.getText().toString(), "Anonymous Owner"));
     }
 
 }

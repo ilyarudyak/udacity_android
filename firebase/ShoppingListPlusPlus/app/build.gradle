@@ -44,5 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-safetynet:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
 
+    // firebase and firebase ui (library to build list view)
     compile 'com.firebase:firebase-client-android:2.4.0'
+    compile 'com.firebaseui:firebase-ui:0.2.2'
 }

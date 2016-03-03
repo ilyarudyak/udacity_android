@@ -12,6 +12,7 @@ public final class Constants {
      * where active lists are stored (ie "activeLists")
      */
     public static final String FIREBASE_LOCATION_ACTIVE_LIST = "activeList";
+    public static final String FIREBASE_LOCATION_ACTIVE_LISTS = "activeLists";
 
 
     // ShoppingList model instance variables
@@ -19,11 +20,10 @@ public final class Constants {
     public static final String SHOPPING_LIST_MODEL_OWNER = "owner";
     public static final String SHOPPING_LIST_MODEL_CREATION_DATE = "creationDate";
 
-    /**
-     * Constants for Firebase URL
-     */
+    // firebase URLs
     public static final String FIREBASE_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
     public static final String FIREBASE_URL_ACTIVE_LIST = FIREBASE_URL + FIREBASE_LOCATION_ACTIVE_LIST;
+    public static final String FIREBASE_URL_ACTIVE_LISTS = FIREBASE_URL + FIREBASE_LOCATION_ACTIVE_LISTS;
 
 
     /**
