@@ -75,10 +75,7 @@ public class AddListDialogFragment extends DialogFragment {
             }
         });
 
-        /* Inflate and set the layout for the dialog */
-        /* Pass null as the parent view because its going in the dialog layout*/
         builder.setView(rootView)
-                /* Add action buttons */
                 .setPositiveButton(R.string.positive_button_create, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -92,7 +89,7 @@ public class AddListDialogFragment extends DialogFragment {
     /**
      * Add new active list
      */
-    public void addShoppingList() {
+    private void addShoppingList() {
 
         Firebase activeListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
         Firebase pushActiveListRef = activeListRef.push();
