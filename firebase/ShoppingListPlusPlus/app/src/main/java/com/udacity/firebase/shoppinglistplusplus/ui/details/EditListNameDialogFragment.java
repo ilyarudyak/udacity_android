@@ -60,12 +60,8 @@ implements DialogInterface.OnClickListener {
             Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LIST);
 
             HashMap<String, Object> updatedProperties = new HashMap<>();
-            updatedProperties.put(Constants.FIREBASE_PROPERTY_LIST_NAME, inputListName);
-
-            HashMap<String, Object> changedTimestampMap = new HashMap<>();
-            changedTimestampMap.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
-
-            updatedProperties.put(Constants.FIREBASE_PROPERTY_TIMESTAMP_LAST_CHANGED, changedTimestampMap);
+            updatedProperties.put(Constants.SHOPPING_LIST_MODEL_LIST_NAME, inputListName);
+            updatedProperties.put(Constants.SHOPPING_LIST_MODEL_CREATION_DATE, ServerValue.TIMESTAMP);
 
             shoppingListRef.updateChildren(updatedProperties);
         }

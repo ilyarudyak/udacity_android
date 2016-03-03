@@ -1,9 +1,8 @@
 package com.udacity.firebase.shoppinglistplusplus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ServerValue;
-import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +12,7 @@ public class ShoppingList {
 
     private String listName;
     private String owner;
-    private Map<String, Object> timestampLastChanged;
+    private Long creationDate;
 
     public ShoppingList() {
     }
@@ -21,8 +20,6 @@ public class ShoppingList {
     public ShoppingList(String listName, String owner) {
         this.listName = listName;
         this.owner = owner;
-        this.timestampLastChanged = new HashMap<>();
-        this.timestampLastChanged.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
     }
 
     public String getListName() {
@@ -31,8 +28,26 @@ public class ShoppingList {
     public String getOwner() {
         return owner;
     }
-    public Map<String, Object> getTimestampLastChanged() {
-        return timestampLastChanged;
+    public Map<String, String> getCreationDate() {
+        return ServerValue.TIMESTAMP;
+    }
+
+    @JsonIgnore
+    public Long getCreationDateLong() {
+        return creationDate;
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,8 +18,7 @@ public class Utils {
     private Context mContext = null;
 
     public static String formatShoppingListDate(ShoppingList shoppingList) {
-        return SIMPLE_DATE_FORMAT.format(new Date((long)shoppingList
-                .getTimestampLastChanged().get(Constants.FIREBASE_PROPERTY_TIMESTAMP)));
+        return SIMPLE_DATE_FORMAT.format(new Date(shoppingList.getCreationDateLong()));
     }
 
     /**

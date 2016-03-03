@@ -14,18 +14,16 @@ public final class Constants {
     public static final String FIREBASE_LOCATION_ACTIVE_LIST = "activeList";
 
 
-    /**
-     * Constants for Firebase object properties
-     */
-    public static final String FIREBASE_PROPERTY_LIST_NAME = "listName";
-    public static final String FIREBASE_PROPERTY_TIMESTAMP = "date";
-    public static final String FIREBASE_PROPERTY_TIMESTAMP_LAST_CHANGED = "timestampLastChanged";
+    // ShoppingList model instance variables
+    public static final String SHOPPING_LIST_MODEL_LIST_NAME = "listName";
+    public static final String SHOPPING_LIST_MODEL_OWNER = "owner";
+    public static final String SHOPPING_LIST_MODEL_CREATION_DATE = "creationDate";
 
     /**
      * Constants for Firebase URL
      */
     public static final String FIREBASE_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
-    public static final String FIREBASE_URL_ACTIVE_LIST = FIREBASE_URL + "/" + FIREBASE_LOCATION_ACTIVE_LIST;
+    public static final String FIREBASE_URL_ACTIVE_LIST = FIREBASE_URL + FIREBASE_LOCATION_ACTIVE_LIST;
 
 
     /**
