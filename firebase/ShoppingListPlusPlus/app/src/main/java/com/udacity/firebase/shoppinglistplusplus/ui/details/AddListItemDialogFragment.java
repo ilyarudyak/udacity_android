@@ -54,9 +54,8 @@ public class AddListItemDialogFragment extends DialogFragment {
 
     private void addShoppingListItem() {
 
-        Firebase activeListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
-        Firebase pushActiveListRef = activeListRef.push();
-        pushActiveListRef.setValue(new ShoppingList(
+        Firebase shoppingListItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS);
+        shoppingListItemsRef.child(mPushId).push().setValue(new ShoppingList(
                 mEditTextListName.getText().toString(), "Anonymous Owner"));
     }
 }
