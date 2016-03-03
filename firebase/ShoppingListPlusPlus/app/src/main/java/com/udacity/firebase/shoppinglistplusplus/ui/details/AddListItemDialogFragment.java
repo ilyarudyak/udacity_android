@@ -38,8 +38,8 @@ public class AddListItemDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomTheme_Dialog);
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View rootView = inflater.inflate(R.layout.dialog_add_list, null);
-        mEditTextListName = (EditText) rootView.findViewById(R.id.edit_text_list_name);
+        View rootView = inflater.inflate(R.layout.dialog_add_item, null);
+        mEditTextListName = (EditText) rootView.findViewById(R.id.edit_text_add_list_item_dialog);
 
         builder.setView(rootView)
                 .setPositiveButton(R.string.positive_button_add_list_item, new DialogInterface.OnClickListener() {
