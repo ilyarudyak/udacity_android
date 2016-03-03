@@ -24,6 +24,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     public static final String LOG_TAG = ShoppingListDetailsActivity.class.getSimpleName();
 
     private ShoppingList mShoppingList;
+    private String mPushId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,10 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     private void setupFirebaseListener() {
 
         if (getIntent() != null) {
-            String pushId = getIntent().getStringExtra(Constants.KEY_LIST_PUSH_ID);
-            Log.d(LOG_TAG, pushId);
+            mPushId = getIntent().getStringExtra(Constants.KEY_LIST_PUSH_ID);
+            Log.d(LOG_TAG, mPushId);
 
-            Firebase refListName = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(pushId);
+            Firebase refListName = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId);
             refListName.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,7 +99,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     // helper methods
     public void showEditListNameDialog() {
         if (mShoppingList != null) {
-            DialogFragment dialog = EditListNameDialogFragment.newInstance(mShoppingList);
+            DialogFragment dialog = EditListNameDialogFragment.newInstance(mShoppingList, mPushId);
             dialog.show(this.getFragmentManager(), "EditListNameDialogFragment");
         }
     }

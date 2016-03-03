@@ -22,17 +22,18 @@ import java.util.HashMap;
 public class EditListNameDialogFragment extends DialogFragment
 implements DialogInterface.OnClickListener {
 
-    public static EditListNameDialogFragment newInstance(ShoppingList shoppingList) {
+    private EditText mListNameEditText;
+    private String mListName, mPushId;
+
+    public static EditListNameDialogFragment newInstance(ShoppingList shoppingList, String pushId) {
 
         Bundle args = new Bundle();
         EditListNameDialogFragment fragment = new EditListNameDialogFragment();
         args.putString(Constants.KEY_LIST_NAME, shoppingList.getListName());
+        args.putString(Constants.KEY_LIST_PUSH_ID, pushId);
         fragment.setArguments(args);
         return fragment;
     }
-
-    private EditText mListNameEditText;
-    private String mListName;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ implements DialogInterface.OnClickListener {
         // set hint for edit text field
         mListNameEditText = (EditText) form.findViewById(R.id.edit_text_list_name_dialog);
         mListName = getArguments().getString(Constants.KEY_LIST_NAME);
+        mPushId = getArguments().getString(Constants.KEY_LIST_PUSH_ID);
         mListNameEditText.setHint(mListName);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -56,8 +58,8 @@ implements DialogInterface.OnClickListener {
     @Override
     public void onClick(DialogInterface dialog, int which) {
         final String inputListName = mListNameEditText.getText().toString();
-        if (!inputListName.equals("") && mListName != null && !inputListName.equals(mListName)) {
-            Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
+        if (!inputListName.equals("") && mListName != null && !inputListName.equals(mListName) && mPushId != null) {
+            Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId);
 
             HashMap<String, Object> updatedProperties = new HashMap<>();
             updatedProperties.put(Constants.SHOPPING_LIST_MODEL_LIST_NAME, inputListName);
