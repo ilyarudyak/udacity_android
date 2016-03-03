@@ -1,16 +1,19 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.ui.details.ShoppingListDetailsActivity;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 
@@ -50,6 +53,20 @@ public class ShoppingListsFragment extends Fragment {
         mActiveListAdapter = new ActiveListAdapter(getActivity(), ShoppingList.class,
                 R.layout.single_active_list, activeListsRef);
         mListView.setAdapter(mActiveListAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ShoppingList shoppingList = mActiveListAdapter.getItem(position);
+                if (shoppingList != null) {
+                    Intent detailIntent = new Intent(getActivity(), ShoppingListDetailsActivity.class);
+                    String pushId = mActiveListAdapter.getRef(position).getKey();
+                    detailIntent.putExtra(Constants.KEY_LIST_PUSH_ID, pushId);
+                    startActivity(detailIntent);
+                }
+            }
+        });
 
         return rootView;
     }

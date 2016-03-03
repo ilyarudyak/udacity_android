@@ -52,10 +52,10 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     private void setupFirebaseListener() {
 
         if (getIntent() != null) {
-            String child = getIntent().getStringExtra("child");
-            Log.d(LOG_TAG, child);
+            String pushId = getIntent().getStringExtra(Constants.KEY_LIST_PUSH_ID);
+            Log.d(LOG_TAG, pushId);
 
-            Firebase refListName = new Firebase(Constants.FIREBASE_URL).child(child);
+            Firebase refListName = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(pushId);
             refListName.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

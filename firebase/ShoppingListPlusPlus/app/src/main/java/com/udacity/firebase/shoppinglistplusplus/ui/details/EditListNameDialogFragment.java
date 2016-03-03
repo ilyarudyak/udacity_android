@@ -57,7 +57,7 @@ implements DialogInterface.OnClickListener {
     public void onClick(DialogInterface dialog, int which) {
         final String inputListName = mListNameEditText.getText().toString();
         if (!inputListName.equals("") && mListName != null && !inputListName.equals(mListName)) {
-            Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LIST);
+            Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
 
             HashMap<String, Object> updatedProperties = new HashMap<>();
             updatedProperties.put(Constants.SHOPPING_LIST_MODEL_LIST_NAME, inputListName);
