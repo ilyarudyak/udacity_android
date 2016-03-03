@@ -32,6 +32,8 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     private String mPushId;
     private Firebase mActiveListRef;
     private Firebase mListItemsRef;
+    private ValueEventListener mActiveListRefListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,13 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         setupFirebaseListener();
         setupAdapter();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mActiveListItemAdapter.cleanup();
+        mActiveListRef.removeEventListener(mActiveListRefListener);
     }
 
     // helper methods
@@ -75,7 +84,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
             Log.d(LOG_TAG, mPushId);
 
             mActiveListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mPushId);
-            mActiveListRef.addValueEventListener(new ValueEventListener() {
+            mActiveListRefListener = mActiveListRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mShoppingList = dataSnapshot.getValue(ShoppingList.class);

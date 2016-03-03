@@ -48,7 +48,7 @@ public class ShoppingListsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_shopping_lists, container, false);
         initializeScreen(rootView);
 
-        // setup firebase listener
+        // setup firebase adapter
         Firebase activeListsRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
         mActiveListAdapter = new ActiveListAdapter(getActivity(), ShoppingList.class,
                 R.layout.single_active_list, activeListsRef);
