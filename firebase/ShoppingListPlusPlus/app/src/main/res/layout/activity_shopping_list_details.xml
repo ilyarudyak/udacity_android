@@ -24,7 +24,8 @@
         android:id="@+id/list_view_shopping_list_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        android:layout_marginTop="48dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

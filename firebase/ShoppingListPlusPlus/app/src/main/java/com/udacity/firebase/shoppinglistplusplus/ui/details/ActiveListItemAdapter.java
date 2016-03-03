@@ -20,10 +20,34 @@ public class ActiveListItemAdapter extends FirebaseListAdapter<ShoppingListItem>
     }
 
     @Override
-    protected void populateView(View view, ShoppingListItem item) {
+    protected void populateView(View view, ShoppingListItem item, final int position) {
         ImageButton buttonRemoveItem = (ImageButton) view.findViewById(R.id.button_remove_item);
         TextView textViewMealItemName = (TextView) view.findViewById(R.id.text_view_active_list_item_name);
 
         textViewMealItemName.setText(item.getItemName());
+
+        // remove item
+        buttonRemoveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRef(position).removeValue();
+            }
+        });
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

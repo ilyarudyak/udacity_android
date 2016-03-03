@@ -31,6 +31,7 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
     private ShoppingList mShoppingList;
     private String mPushId;
     private Firebase mActiveListRef;
+    private Firebase mListItemsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +63,9 @@ public class ShoppingListDetailsActivity extends AppCompatActivity {
         }
     }
     private void setupAdapter() {
-        Firebase listItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS).child(mPushId);
+        mListItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS).child(mPushId);
         mActiveListItemAdapter = new ActiveListItemAdapter(this, ShoppingListItem.class,
-                R.layout.single_active_list_item, listItemsRef);
+                R.layout.single_active_list_item, mListItemsRef);
         mListView.setAdapter(mActiveListItemAdapter);
     }
     private void setupFirebaseListener() {
