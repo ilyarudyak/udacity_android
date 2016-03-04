@@ -1,20 +1,17 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -28,15 +25,112 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.Scope;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.ui.BaseActivity;
+import com.udacity.firebase.shoppinglistplusplus.ui.MainActivity;
+import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 import java.io.IOException;
 
 public class LoginActivity extends BaseActivity {
 
     private static final String LOG_TAG = LoginActivity.class.getSimpleName();
-    /* A dialog that is presented until the Firebase authentication finished. */
-    private ProgressDialog mAuthProgressDialog;
     private EditText mEditTextEmailInput, mEditTextPasswordInput;
+    private Firebase mFirebaseRef;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        mFirebaseRef = new Firebase(Constants.FIREBASE_URL);
+        initializeScreen();
+    }
+
+    // helper methods
+    private void initializeScreen() {
+        mEditTextEmailInput = (EditText) findViewById(R.id.edit_text_email);
+        mEditTextPasswordInput = (EditText) findViewById(R.id.edit_text_password);
+        LinearLayout linearLayoutLoginActivity = (LinearLayout) findViewById(R.id.linear_layout_login_activity);
+        initializeBackground(linearLayoutLoginActivity);
+    }
+    private void showErrorToast(String message) {
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+    }
+    private void signInPassword() {
+        String email = mEditTextEmailInput.getText().toString();
+        String password = mEditTextPasswordInput.getText().toString();
+
+        if (email.equals("")) {
+            mEditTextEmailInput.setError(getString(R.string.error_cannot_be_empty));
+            return;
+        }
+
+        if (password.equals("")) {
+            mEditTextPasswordInput.setError(getString(R.string.error_cannot_be_empty));
+            return;
+        }
+        mFirebaseRef.authWithPassword(email, password, new MyAuthResultHandler(Constants.PASSWORD_PROVIDER));
+    }
+
+    // listeners
+    public void onSignInPressed(View view) {
+        signInPassword();
+    }
+    public void onSignUpPressed(View view) {
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        startActivity(intent);
+    }
+
+    private class MyAuthResultHandler implements Firebase.AuthResultHandler {
+
+        private final String provider;
+
+        public MyAuthResultHandler(String provider) {
+            this.provider = provider;
+        }
+
+        @Override
+        public void onAuthenticated(AuthData authData) {
+            Log.d(LOG_TAG, provider + " " + getString(R.string.log_message_auth_successful));
+            if (authData != null) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+        @Override
+        public void onAuthenticationError(FirebaseError firebaseError) {
+            switch (firebaseError.getCode()) {
+                case FirebaseError.INVALID_EMAIL:
+                case FirebaseError.USER_DOES_NOT_EXIST:
+                    mEditTextEmailInput.setError(getString(R.string.error_message_email_issue));
+                    break;
+                case FirebaseError.INVALID_PASSWORD:
+                    mEditTextPasswordInput.setError(firebaseError.getMessage());
+                    break;
+                case FirebaseError.NETWORK_ERROR:
+                    showErrorToast(getString(R.string.error_message_failed_sign_in_no_network));
+                    break;
+                default:
+                    showErrorToast(firebaseError.toString());
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ---------------- login with Google ------------------
 
     /**
      * Variables related to Google Login
@@ -47,115 +141,6 @@ public class LoginActivity extends BaseActivity {
     public static final int RC_GOOGLE_LOGIN = 1;
     /* A Google account object that is populated if the user signs in with Google */
     GoogleSignInAccount mGoogleAccount;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        /**
-         * Link layout elements from XML and setup progress dialog
-         */
-        initializeScreen();
-
-        /**
-         * Call signInPassword() when user taps "Done" keyboard action
-         */
-        mEditTextPasswordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-
-                if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    signInPassword();
-                }
-                return true;
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    /**
-     * Override onCreateOptionsMenu to inflate nothing
-     *
-     * @param menu The menu with which nothing will happen
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-
-    /**
-     * Sign in with Password provider when user clicks sign in button
-     */
-    public void onSignInPressed(View view) {
-        signInPassword();
-    }
-
-    /**
-     * Open CreateAccountActivity when user taps on "Sign up" TextView
-     */
-    public void onSignUpPressed(View view) {
-        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * Link layout elements from XML and setup the progress dialog
-     */
-    public void initializeScreen() {
-        mEditTextEmailInput = (EditText) findViewById(R.id.edit_text_email);
-        mEditTextPasswordInput = (EditText) findViewById(R.id.edit_text_password);
-        LinearLayout linearLayoutLoginActivity = (LinearLayout) findViewById(R.id.linear_layout_login_activity);
-        initializeBackground(linearLayoutLoginActivity);
-        /* Setup the progress dialog that is displayed later when authenticating with Firebase */
-        mAuthProgressDialog = new ProgressDialog(this);
-        mAuthProgressDialog.setTitle(getString(R.string.progress_dialog_loading));
-        mAuthProgressDialog.setMessage(getString(R.string.progress_dialog_authenticating_with_firebase));
-        mAuthProgressDialog.setCancelable(false);
-        /* Setup Google Sign In */
-        setupGoogleSignIn();
-    }
-
-    /**
-     * Sign in with Password provider (used when user taps "Done" action on keyboard)
-     */
-    public void signInPassword() {
-    }
-
-    /**
-     * Helper method that makes sure a user is created if the user
-     * logs in with Firebase's email/password provider.
-     * @param authData AuthData object returned from onAuthenticated
-     */
-    private void setAuthenticatedUserPasswordProvider(AuthData authData) {
-    }
-
-    /**
-     * Helper method that makes sure a user is created if the user
-     * logs in with Firebase's Google login provider.
-     * @param authData AuthData object returned from onAuthenticated
-     */
-    private void setAuthenticatedUserGoogle(AuthData authData){
-
-    }
-
-    /**
-     * Show error toast to users
-     */
-    private void showErrorToast(String message) {
-        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
-    }
-
 
     /**
      * Signs you into ShoppingList++ using the Google Login Provider
@@ -184,7 +169,6 @@ public class LoginActivity extends BaseActivity {
      * the AsyncTask. **This is the token required by Firebase**
      */
 
-
     /* Sets up the Google Sign In Button : https://developers.google.com/android/reference/com/google/android/gms/common/SignInButton */
     private void setupGoogleSignIn() {
         SignInButton signInButton = (SignInButton)findViewById(R.id.login_with_google);
@@ -203,7 +187,6 @@ public class LoginActivity extends BaseActivity {
     public void onSignInGooglePressed(View view) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_GOOGLE_LOGIN);
-        mAuthProgressDialog.show();
 
     }
 
@@ -213,10 +196,8 @@ public class LoginActivity extends BaseActivity {
          * An unresolvable error has occurred and Google APIs (including Sign-In) will not
          * be available.
          */
-        mAuthProgressDialog.dismiss();
         showErrorToast(result.toString());
     }
-
 
     /**
      * This callback is triggered when any startActivityForResult finishes. The requestCode maps to
@@ -247,7 +228,6 @@ public class LoginActivity extends BaseActivity {
             } else {
                 showErrorToast("Error handling the sign in: " + result.getStatus().getStatusMessage());
             }
-            mAuthProgressDialog.dismiss();
         }
     }
 
@@ -291,7 +271,6 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(String token) {
-                mAuthProgressDialog.dismiss();
                 if (token != null) {
                     /* Successfully got OAuth token, now login with Google */
                     loginWithGoogle(token);

@@ -29,4 +29,7 @@ public final class Constants {
     public static final String KEY_LIST_NAME = "listName";
     public static final String KEY_LIST_PUSH_ID = "pushId";
 
+    // constants for firebase login
+    public static final String PASSWORD_PROVIDER = "password";
+
 }
